@@ -30,7 +30,6 @@ namespace Mirror.BugsBoys
 
         [Header("Stats")]
         [SyncVar] public int health = 4;
-        //[SyncVar] public int team = 1; // Red = 1 ; Blue = 0
         
         private void Awake()
         {
@@ -51,19 +50,15 @@ namespace Mirror.BugsBoys
             // (SyncVar hook would only update on clients, not on server)
             //healthBar.text = new string('-', health);
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab))
             {
                 isPaused = !isPaused;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
             }
 
             // movement for local player
             if (isLocalPlayer && !isPaused)
             {
                 // lock cursor
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
 
                 // look
                 float mouseY = -Input.GetAxis("Mouse Y");

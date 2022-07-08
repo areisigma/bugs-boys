@@ -11,7 +11,7 @@ namespace Mirror
         NetworkTeam nt;
         Transform spawnRed;
         Transform spawnBlue;
-        bool teamChoice;
+        bool teamChoice; // yes yes i know theres teamChoice in other scripts and even in NetworkClient. fuck it, fuck unity
 
         [Header("Player")]
         public Transform playerPosition;
@@ -29,7 +29,7 @@ namespace Mirror
 
         private void Update()
         {
-            if (NetworkClient.teamId == "red" && teamChoice == true)
+            if (NetworkClient.teamId == "red" && teamChoice)
             {
                 nt.teamId = "red";
 
@@ -41,7 +41,7 @@ namespace Mirror
 
                 teamChoice = false;
             }
-            if (NetworkClient.teamId == "blue" && teamChoice == true)
+            if (NetworkClient.teamId == "blue" && teamChoice)
             {
                 nt.teamId = "blue";
 
@@ -55,7 +55,7 @@ namespace Mirror
             }
 
             if (NetworkClient.teamId != nt.teamId)
-                teamChoice = !teamChoice;
+                teamChoice = true; // !teamChoice;
         }
 
         void PlayerTeamModel(int k)

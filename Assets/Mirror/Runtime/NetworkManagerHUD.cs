@@ -20,28 +20,45 @@ namespace Mirror
         public int offsetX;
         public int offsetY;
         [Space]
-        public int offsetXt; // Team HUD offset
-        public int offsetYt;
-        public bool teamChoice = true;
-        
+        public int offsetXt = Screen.width / 2; // Team HUD offset
+        public int offsetYt = Screen.height / 2; // 
 
-        bool isPaused = false;
+        public bool isPaused = false;
+        public bool teamChoice = true;
+
 
         void Awake()
         {
             manager = GetComponent<NetworkManager>();
+            //Cursor.lockState = CursorLockMode.None;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-                isPaused = !isPaused;
-
             if (NetworkClient.isConnected)
                 player = NetworkClient.localPlayer.gameObject;
 
+            // isPause -> pause menu
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                isPaused = !isPaused;
+
+                if(isPaused)
+                    FreeCursor();
+                else
+                    LockCursor();
+            }
+
+            // NetworkClient.teamChoice -> choosing team menu
             if (Input.GetKeyDown(KeyCode.Tab))
-                teamChoice = true;
+            {
+                teamChoice = !teamChoice;
+
+                if (teamChoice)
+                    FreeCursor();
+                else
+                    LockCursor();
+            }
         }
 
         void OnGUI()
@@ -179,9 +196,8 @@ namespace Mirror
         
         void TeamHUD()
         {
-            if (teamChoice && SceneManager.GetSceneByName("Game").buildIndex == 1)
+            if (teamChoice && NetworkClient.isConnected)
             {
-                isPaused = true;
                 GUILayout.BeginArea(new Rect(10 + offsetXt, 200 + offsetYt, 375, 9999));
 
                 GUILayout.BeginHorizontal();
@@ -195,7 +211,7 @@ namespace Mirror
                     NetworkClient.teamId = "red";
 
                     teamChoice = false;
-                    isPaused = false;
+                    LockCursor();
                 }
 
                 if (GUILayout.Button("Join Blue"))
@@ -203,7 +219,7 @@ namespace Mirror
                     NetworkClient.teamId = "blue";
 
                     teamChoice = false;
-                    isPaused = false;
+                    LockCursor();
                 }
                 GUILayout.EndHorizontal();
 
@@ -211,5 +227,17 @@ namespace Mirror
             }
         }
         
+        void FreeCursor() // Using HUD
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        void LockCursor() // Playing Game
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
     }
 }
