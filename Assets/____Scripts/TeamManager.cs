@@ -29,7 +29,7 @@ namespace Mirror
 
         private void Update()
         {
-            if (NetworkClient.teamId == "red" && teamChoice)
+            if (NetworkClient.teamId == "red" && teamChoice && isLocalPlayer)
             {
                 nt.teamId = "red";
 
@@ -41,7 +41,7 @@ namespace Mirror
 
                 teamChoice = false;
             }
-            if (NetworkClient.teamId == "blue" && teamChoice)
+            if (NetworkClient.teamId == "blue" && teamChoice && isLocalPlayer)
             {
                 nt.teamId = "blue";
 

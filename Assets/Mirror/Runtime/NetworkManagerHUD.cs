@@ -42,6 +42,7 @@ namespace Mirror
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 isPaused = !isPaused;
+                teamChoice = false;
 
                 if(isPaused)
                     FreeCursor();
@@ -59,6 +60,8 @@ namespace Mirror
                 else
                     LockCursor();
             }
+
+            NetworkClient.isPaused = isPaused || teamChoice;
         }
 
         void OnGUI()
@@ -211,6 +214,8 @@ namespace Mirror
                     NetworkClient.teamId = "red";
 
                     teamChoice = false;
+                    isPaused = false;
+
                     LockCursor();
                 }
 
@@ -219,6 +224,8 @@ namespace Mirror
                     NetworkClient.teamId = "blue";
 
                     teamChoice = false;
+                    isPaused = false;
+
                     LockCursor();
                 }
                 GUILayout.EndHorizontal();

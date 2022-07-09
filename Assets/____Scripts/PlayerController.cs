@@ -11,6 +11,7 @@ namespace Mirror.BugsBoys
         public GameObject cameraHolder;
         public GameObject cameraArm;
         public Rigidbody rb;
+        NetworkTeam nt;
 
         [Header("Camera")]
         public float cameraYSpeed = 1;
@@ -49,17 +50,13 @@ namespace Mirror.BugsBoys
             // always update health bar.
             // (SyncVar hook would only update on clients, not on server)
             //healthBar.text = new string('-', health);
-
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab))
-            {
-                isPaused = !isPaused;
-            }
+            
+            // Grab isPaused bool from NetworkMangerHUD to complete GUI
+            isPaused = NetworkClient.isPaused;
 
             // movement for local player
             if (isLocalPlayer && !isPaused)
             {
-                // lock cursor
-
                 // look
                 float mouseY = -Input.GetAxis("Mouse Y");
                 float mouseX = Input.GetAxis("Mouse X");

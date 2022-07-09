@@ -499,8 +499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8154d7d3ce0714fbd681722ae7af0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
+  syncMode: 0
+  syncInterval: 0.1
   playerPosition: {fileID: 2406701140440037534}
   skinRed: {fileID: 433203537135382187}
   skinBlue: {fileID: 1132306861016700654}

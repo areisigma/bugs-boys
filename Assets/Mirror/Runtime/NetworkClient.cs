@@ -103,6 +103,7 @@ namespace Mirror
         public static bool isLoadingScene;
 
         public static string teamId; // Team Id
+        public static bool isPaused; // isPaused || teamChoice (from NetworkManagerHUD)
 
 
         // initialization //////////////////////////////////////////////////////

@@ -1084,8 +1084,11 @@ namespace Mirror
             }
             else
             {
-                Transform startPosition = startPositions[startPositionIndex];
+                /*Transform startPosition = startPositions[startPositionIndex];
                 startPositionIndex = (startPositionIndex + 1) % startPositions.Count;
+                return startPosition;*/
+                Transform startPosition = startPositions[0];
+
                 return startPosition;
             }
         }
