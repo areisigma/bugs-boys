@@ -102,8 +102,9 @@ namespace Mirror
         // scene loading
         public static bool isLoadingScene;
 
-        public static string teamId; // Team Id
+        public static string teamId = "red"; // Team Id
         public static bool isPaused; // isPaused || teamChoice (from NetworkManagerHUD)
+        public static bool sTeamChoice;
 
 
         // initialization //////////////////////////////////////////////////////

@@ -11,17 +11,20 @@ namespace Mirror
         NetworkTeam nt;
         Transform spawnRed;
         Transform spawnBlue;
-        bool teamChoice; // yes yes i know theres teamChoice in other scripts and even in NetworkClient. fuck it, fuck unity
+        bool teamChoice;
 
         [Header("Player")]
         public Transform playerPosition;
         public GameObject skinRed;
         public GameObject skinBlue;
 
+        [SyncVar(hook = nameof(OnModelChange))]
+        string skin;
+        
+
         private void Start()
         {
             nt = GetComponent<NetworkTeam>();
-            nt.teamId = "red";
 
             spawnRed = NetworkManager.startPositions[0];
             spawnBlue = NetworkManager.startPositions[1];
@@ -29,44 +32,60 @@ namespace Mirror
 
         private void Update()
         {
-            if (NetworkClient.teamId == "red" && teamChoice && isLocalPlayer)
+            if (!hasAuthority) return;
+
+
+            if (NetworkClient.teamId == "red" && teamChoice)
             {
                 nt.teamId = "red";
+                teamChoice = false;
+                NetworkClient.sTeamChoice = false;
 
-                PlayerTeamModel(1); // Red Model
+                Debug.Log("kupa");
+
+                CmdModelChange();
 
                 // Set position and rotation of spawn
                 playerPosition.position = spawnRed.position;
                 playerPosition.rotation = spawnRed.rotation;
-
-                teamChoice = false;
             }
-            if (NetworkClient.teamId == "blue" && teamChoice && isLocalPlayer)
+            if (NetworkClient.teamId == "blue" && teamChoice)
             {
                 nt.teamId = "blue";
+                teamChoice = false;
+                NetworkClient.sTeamChoice = false;
 
-                PlayerTeamModel(0); // Blue Model
+                Debug.Log("kupa2");
+
+                CmdModelChange();
 
                 // Set position and rotation of spawn
                 playerPosition.position = spawnBlue.position;
                 playerPosition.rotation = spawnBlue.rotation;
-
-                teamChoice = false;
             }
 
-            if (NetworkClient.teamId != nt.teamId)
-                teamChoice = true; // !teamChoice;
+            // On teamId change above code will run only once. Inside if statements teamChoice is set to false
+            if (NetworkClient.sTeamChoice == true)
+                teamChoice = true;
         }
 
-        void PlayerTeamModel(int k)
+        [Command]
+        void CmdModelChange()
         {
-            switch (k)
+            skin = nt.teamId;
+        }
+
+        void OnModelChange(string _old, string _new)
+        {
+            //if (!isClient) return;
+            
+            switch (_new)
             {
-                case 1:
+                case "red":
                     skinRed.SetActive(true);
                     skinBlue.SetActive(false);
                     break;
-                case 0:
+                case "blue":
                     skinRed.SetActive(false);
                     skinBlue.SetActive(true);
                     break;

@@ -35,9 +35,6 @@ namespace Mirror
 
         private void Update()
         {
-            if (NetworkClient.isConnected)
-                player = NetworkClient.localPlayer.gameObject;
-
             // isPause -> pause menu
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -215,6 +212,7 @@ namespace Mirror
 
                     teamChoice = false;
                     isPaused = false;
+                    NetworkClient.sTeamChoice = true;
 
                     LockCursor();
                 }
@@ -225,6 +223,7 @@ namespace Mirror
 
                     teamChoice = false;
                     isPaused = false;
+                    NetworkClient.sTeamChoice = true;
 
                     LockCursor();
                 }

@@ -19,7 +19,7 @@ namespace Mirror.BugsBoys
 
         [Header("Movement")]
         public float speed = 2.5f;
-        public float jumpForce = 10.0f;
+        public float jumpForce = 50.0f;
         public KeyCode jumpKey = KeyCode.Space;
         private Vector3 playerMovementInput;
         private bool isPaused = false;
